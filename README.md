@@ -21,8 +21,10 @@ For using service you need install rabbitmq, nodejs and mongodb on your server.
 
 # Run service
 
+```bash
 npm install
 npm start
+```
 
 # Send push
 
