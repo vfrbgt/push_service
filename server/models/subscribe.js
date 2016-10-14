@@ -21,6 +21,16 @@ const subscribeSchema = new mongoose.Schema({
   group: {
     type: String,
     required: true,
+  },
+  browser: {
+    type: String,
+    required: true,
+  },
+  key: {
+    type: String,
+  },
+  auth: {
+    type: String,
   }
 }, {
   versionKey: false,

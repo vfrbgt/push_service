@@ -91,6 +91,9 @@ function endpointWorkaround(subscriptionId) {
     if (~subscriptionId.indexOf('https://android.googleapis.com/gcm/send')) {
         var token = subscriptionId.split("https://android.googleapis.com/gcm/send/");
         return token[1];
+    } else if(~subscriptionId.indexOf('https://updates.push.services.mozilla.com/wpush/v1')) {
+        var token = subscriptionId.split("https://updates.push.services.mozilla.com/wpush/v1/");
+        return token[1];
     } else {
         return subscriptionId;
     }

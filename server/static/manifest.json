@@ -1,4 +1,12 @@
 {  
   "name": "BrowserJohny",
-  "gcm_sender_id": "480924934372"
+  "short_name": "Browser Johny",  
+  "icons": [{
+    "src": "icon-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }],
+  "start_url": "/index.html",  
+  "display": "standalone", 
+  "gcm_sender_id": ""
 }

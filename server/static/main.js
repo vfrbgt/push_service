@@ -1,5 +1,14 @@
 var isPushEnabled = false;
 
+function Base64EncodeUrl(str){
+    return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+}
+
+function Base64DecodeUrl(str){
+    str = (str + '===').slice(0, str.length + (str.length % 4));
+    return str.replace(/-/g, '+').replace(/_/g, '/');
+}
+
 function initialiseState() {
     if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
         console.warn('Notifications aren\'t supported.');
@@ -20,7 +29,6 @@ function initialiseState() {
             if (!subscription) {
                 return;
             }
-            sendSubscriptionToServer(subscription);
             pushButton.textContent = 'Disable Push Messages';
             isPushEnabled = true;
         }).catch(function(err) {
@@ -36,7 +44,7 @@ function subscribe() {
         serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true}).then(function(subscription) {
             isPushEnabled = true;
             pushButton.textContent = 'Disable Push Messages';
-            pushButton.disabled = false;
+            pushButton.disabled = false; 
             return sendSubscriptionToServer(subscription);
         }).catch(function(e) {
             if (Notification.permission === 'denied') {
@@ -93,6 +101,9 @@ function endpointWorkaround(subscriptionId) {
     if (~subscriptionId.indexOf('https://android.googleapis.com/gcm/send')) {
         var token = subscriptionId.split("https://android.googleapis.com/gcm/send/");
         return token[1];
+    } else if(~subscriptionId.indexOf('https://updates.push.services.mozilla.com/wpush/v1')) {
+        var token = subscriptionId.split("https://updates.push.services.mozilla.com/wpush/v1/");
+        return token[1];
     } else {
         return subscriptionId;
     }
@@ -100,6 +111,15 @@ function endpointWorkaround(subscriptionId) {
 
 function sendSubscriptionToServer(subscribe) {
   var token = endpointWorkaround(subscribe.endpoint);
+  var rawKey = subscribe.getKey ? subscribe.getKey('p256dh') : '';
+  var key = rawKey ? Base64EncodeUrl(btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey)))) : '';
+  var rawAuthSecret = subscribe.getKey ? subscribe.getKey('auth') : '';
+  var authSecret = rawAuthSecret ? Base64EncodeUrl(btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret)))) : '';
+  var isFirefox = typeof InstallTrigger !== 'undefined';
+  var browser = 'chrome';
+  if(isFirefox) {
+    browser = 'firefox';
+  }
   $.ajax({
     type: "POST",
     url: '/api/subscribe',
@@ -107,6 +127,9 @@ function sendSubscriptionToServer(subscribe) {
         'project': urlParam('project'),
         'token': token,
         'group': urlParam('group'),
+        'key': key,
+        'auth': authSecret,
+        'browser': browser
     }
   });
   console.log(subscribe);

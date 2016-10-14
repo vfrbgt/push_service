@@ -4,8 +4,20 @@ import mongoose from 'mongoose';
 import uid from 'uid';
 import idValidator from 'mongoose-id-validator';
 import request from 'request';
+import webPush from 'web-push';
 
+const endpoints = {
+  'chrome': 'https://gcm-http.googleapis.com/gcm/send',
+  'firefox': 'https://updates.push.services.mozilla.com/wpush/v1/'
+};
 const gcmApiKey = '';
+
+function endpoint(browser, token) {
+  if(browser === 'firefox') {
+    return endpoints['firefox']+token;
+  }
+  return endpoints['chrome'];
+}
 
 const pushSchema = new mongoose.Schema({
   id: {
@@ -79,10 +91,23 @@ pushSchema.statics.sendPush = function sendPush (subscribes, push) {
         token: subscribe.token
     });
     newPush.save((err) => {});
-    regIds[index] = subscribe.token;
+    if(subscribe.browser === 'firefox') {
+      const subscribeOptions = {
+        endpoint: endpoint('firefox', subscribe.token),
+        keys: {
+          auth: subscribe.auth,
+          p256dh: subscribe.key
+        }
+      };
+      webPush.sendNotification(subscribeOptions, '');
+    }
+    else {
+      regIds[index] = subscribe.token;
+    }    
   });
+
   var options = {
-    url: 'https://gcm-http.googleapis.com/gcm/send',
+    url: endpoint('chrome'),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'key='+gcmApiKey
@@ -91,15 +116,7 @@ pushSchema.statics.sendPush = function sendPush (subscribes, push) {
       "registration_ids":regIds
     }
   };
-  request.post(options, function(error, response, body) {
-    // handling request
-    // if(error !== null) {
-    //   console.log(error);
-      // exchange.publish('log_queue', {
-
-      // });
-    // }
-  });
+  request.post(options, function(error, response, body) {});
 };
 
 export default mongoose.model('Push', pushSchema);

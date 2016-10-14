@@ -73,6 +73,7 @@
     "passport-http-bearer": "^1.0.1",
     "uid": "0.0.2",
     "amqp": "0.2.*",
-    "request": "2.75.*"
+    "request": "2.75.*",
+    "web-push": "3.0.*"
   }
 }
