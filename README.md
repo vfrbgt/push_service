@@ -80,3 +80,30 @@ connection.on('ready', function () {
 	}, 2000);
 });
 ```
+# Example using service on php+PhpAmqpLib
+
+```php
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+define('AMQP_DEBUG', true);
+
+$connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
+$channel    = $connection->channel();
+$exchange   = 'send_push';
+
+$channel->queue_declare($exchange, false, true, false, false);
+$msg = new AMQPMessage(json_encode([
+    'title'   => 'Hello',
+    'body'    => 'World',
+    'icon'    => '',
+    'tag'     => '',
+    'link'    => '',
+    'project' => 'test',
+    'group'   => 'all',
+]), ['delivery_mode' => 2]);
+$channel->basic_publish($msg, '', $exchange);
+
+$channel->close();
+$connection->close();
+```
