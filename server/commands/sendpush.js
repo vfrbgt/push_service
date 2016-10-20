@@ -11,6 +11,9 @@ export default (connection) => {
       q.bind('#');
       q.subscribe(function (message) {
         let data = message;
+        if(message.data) {
+          data = JSON.parse(message.data.toString());
+        }
         if(data.project && !data.group) {
           Subscribe.find({
             'project': data.project
