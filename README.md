@@ -44,6 +44,28 @@ Required data fields:
 }
 ```
 
+# Subscribe page design
+
+Subscribe page available on http://127.0.0.1:3000
+Folder with css, js, html and images files available on server/static/ folder
+
+# Exmaple add domain name for service
+
+This simple to do using nginx. For example
+
+```nginx
+server {
+    listen 80;
+    server_name push.youDomainName.com;
+    location / {
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   Host      $http_host;
+        proxy_pass         http://127.0.0.1:3000;
+    }
+}
+```
+
+And your subscribtion page will be available on http://push.youDomainName.com
 
 # Example using service on nodejs+ampq
 
