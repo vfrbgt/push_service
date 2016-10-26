@@ -9,11 +9,11 @@ export default (router) => {
         'token': ctx.params.id
       });
       ctx.body = {
-        title: 'Привет',
-        body: 'Тварь',
-        icon: '',
-        tag: '',
-        link: ''
+        title: push.title,
+        body: push.body,
+        icon: push.icon,
+        tag: push.tag,
+        link: push.link
       };
     }
   );
