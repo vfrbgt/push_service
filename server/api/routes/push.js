@@ -7,7 +7,7 @@ export default (router) => {
     async ctx => {
       let push = await Push.findOne({
         'token': ctx.params.id
-      });
+      }).sort({"created_at":-1});
       ctx.body = {
         title: push.title,
         body: push.body,
