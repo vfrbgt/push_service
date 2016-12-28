@@ -140,3 +140,13 @@ $channel->basic_publish($msg, '', $exchange);
 $channel->close();
 $connection->close();
 ```
+
+#Attention!!!
+
+Service work must be available in root directory on your site!!!
+
+Example
+
+```
+https://yoursite.com/service-worker.js
+```
