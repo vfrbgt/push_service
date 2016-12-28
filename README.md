@@ -28,6 +28,7 @@ Fullfill this env variables.
 4. CONF_RABBIT_PASSWORD - rabbitmq user password
 5. CONF_RABBIT_HOST - rabbitmq hostsname
 6. CONF_RABBIT_PORT - rabbitmq port
+7. GCM_API_KEY - gcm api key from https://console.firebase.google.com
 
 # Run service
 

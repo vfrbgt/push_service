@@ -7,14 +7,13 @@ import {
 import {
   connectRabbit,
 } from '../server/rabbit';
-import { development } from '../server/db/config';
-import { connectionData } from '../server/rabbit/config';
+import { connectionMongoData } from '../server/db/config';
 
 const port = process.env.PORT || 3000;
 
 (async() => {
   try {
-    const info = await connectDatabase(development);
+    const info = await connectDatabase(connectionMongoData);
     console.log(`Connected to ${info.host}:${info.port}/${info.name}`);
   } catch (error) {
     console.error('Unable to connect to database');

@@ -4,7 +4,7 @@ import {commands} from '../commands';
 import connectionData from './config';
 import amqp from 'amqp';
 
-export function connectRabbit(uri) {
+export function connectRabbit() {
   return new Promise((resolve, reject) => {
   	var connection = amqp.createConnection(connectionData);
 
