@@ -21,7 +21,7 @@ const port = process.env.PORT || 3000;
   }
 
   try {
-    const rabbitConnection = await connectRabbit(connectionData);
+    const rabbitConnection = await connectRabbit();
     console.log(`Connected rabbit`);
   } catch (error) {
     console.log(error);
