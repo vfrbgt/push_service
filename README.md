@@ -22,13 +22,13 @@ For using service you need install rabbitmq, nodejs and mongodb on your server.
 #OR
 
 Fullfill this env variables.
-1. CONF_MONGO_HOST - hostsname mongodb
-2. CONF_MONGO_DB_NAME - db name of mongodb
-3. CONF_RABBIT_LOGIN - rabbitmq user login
-4. CONF_RABBIT_PASSWORD - rabbitmq user password
-5. CONF_RABBIT_HOST - rabbitmq hostsname
-6. CONF_RABBIT_PORT - rabbitmq port
-7. GCM_API_KEY - gcm api key from https://console.firebase.google.com
+* 1. CONF_MONGO_HOST - hostsname mongodb
+* 2. CONF_MONGO_DB_NAME - db name of mongodb
+* 3. CONF_RABBIT_LOGIN - rabbitmq user login
+* 4. CONF_RABBIT_PASSWORD - rabbitmq user password
+* 5. CONF_RABBIT_HOST - rabbitmq hostsname
+* 6. CONF_RABBIT_PORT - rabbitmq port
+* 7. GCM_API_KEY - gcm api key from https://console.firebase.google.com
 
 # Run service
 
